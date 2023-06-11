@@ -6,6 +6,7 @@ namespace MyGame;
 
 public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 {
+	/* camera settings */
 	protected float WheelSpeed => 30f;
 	protected Vector2 CameraDistance => new( 125, 1000 );
 	protected Vector2 PitchClamp => new( 5, 65 );
@@ -13,6 +14,10 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 	float OrbitDistance = 400f;
 	float TargetOrbitDistance = 250f;
 	Angles OrbitAngles = Angles.Zero;
+
+	/* fov */
+	float DefaultFOV = 80f;
+	float SprintFOV = 85f;
 
 	protected static Vector3 IntersectPlane( Vector3 pos, Vector3 dir, float z )
 	{
@@ -31,6 +36,11 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 			0.0f ) );
 	}
 
+	public void awaken()
+	{
+		Camera.FieldOfView = 80f;
+	}
+
 	public void Update()
 	{
 		var pawn = Entity;
@@ -43,10 +53,9 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 		Camera.Position += Vector3.Up * (pawn.CollisionBounds.Center.z * pawn.Scale);
 		Camera.Rotation = Rotation.From( OrbitAngles );
 
-		targetPos = Camera.Position + Camera.Rotation.Backward * OrbitDistance;
+		targetPos = Camera.Position + new Vector3( 0, 0, 25 ) + Camera.Rotation.Backward * OrbitDistance;
 
 		Camera.Position = targetPos;
-		Camera.FieldOfView = 80f;
 		Camera.FirstPersonViewer = null;
 
 		Sound.Listener = new()
@@ -54,7 +63,18 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 			Position = pawn.AimRay.Position,
 			Rotation = pawn.EyeRotation
 		};
-	}
+
+		if ( Input.Pressed( "run" ) )
+		{
+			Camera.FieldOfView = SprintFOV;
+		}
+		
+		if ( Input.Released( "run" ) )
+		{
+			Camera.FieldOfView = DefaultFOV;
+		}
+
+		}
 
 	public void BuildInput()
 	{
