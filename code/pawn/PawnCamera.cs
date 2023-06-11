@@ -98,7 +98,6 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 
 			Entity.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
-		
 
 		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.x, PitchClamp.y );
 

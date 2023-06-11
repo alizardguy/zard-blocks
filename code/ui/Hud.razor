@@ -11,8 +11,8 @@
 
     <div class="pointer-visible" />
 
-    <div class="header">
-        <label>Zard Blocks</label>
+    <div class="menu-area">
+        
     </div>
 </root>
 
@@ -22,5 +22,6 @@
     {
         var devCam = Game.LocalClient.Components.Get<DevCamera>();
         SetClass( "camera-movement", Input.UsingController || Input.Down( "attack2" ) || devCam is not null );
+
     }
 }
