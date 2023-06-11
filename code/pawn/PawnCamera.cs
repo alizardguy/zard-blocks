@@ -8,10 +8,10 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 {
 	protected float WheelSpeed => 30f;
 	protected Vector2 CameraDistance => new( 125, 1000 );
-	protected Vector2 PitchClamp => new( 30, 60 );
+	protected Vector2 PitchClamp => new( 5, 65 );
 
 	float OrbitDistance = 400f;
-	float TargetOrbitDistance = 400f;
+	float TargetOrbitDistance = 250f;
 	Angles OrbitAngles = Angles.Zero;
 
 	protected static Vector3 IntersectPlane( Vector3 pos, Vector3 dir, float z )
@@ -46,7 +46,7 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 		targetPos = Camera.Position + Camera.Rotation.Backward * OrbitDistance;
 
 		Camera.Position = targetPos;
-		Camera.FieldOfView = 70f;
+		Camera.FieldOfView = 80f;
 		Camera.FirstPersonViewer = null;
 
 		Sound.Listener = new()
