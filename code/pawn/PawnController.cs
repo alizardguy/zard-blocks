@@ -46,6 +46,11 @@ public class PawnController : EntityComponent<Pawn>
 			DoJump();
 		}
 
+		if ( Input.Pressed( "duck" ) )
+		{
+			DoDuck();
+		}
+
 		var mh = new MoveHelper( Entity.Position, Entity.Velocity );
 		mh.Trace = mh.Trace.Size( Entity.Hull ).Ignore( Entity );
 
@@ -62,11 +67,21 @@ public class PawnController : EntityComponent<Pawn>
 		Entity.GroundEntity = groundEntity;
 	}
 
+	/* player jump */
 	void DoJump()
 	{
 		if ( Grounded )
 		{
 			Entity.Velocity = ApplyJump( Entity.Velocity, "jump" );
+		}
+	}
+
+	/* player duck */
+	void DoDuck()
+	{
+		if ( Grounded )
+		{
+			
 		}
 	}
 

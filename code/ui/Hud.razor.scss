@@ -1,36 +1,26 @@
-Hud
-{
+Hud {
     pointer-events: none;
 
-    .pointer-visible
-    {
+    .pointer-visible {
         pointer-events: all;
     }
 
-    &.camera-movement
-    {
-        .pointer-visible
-        {
+    &.camera-movement {
+        .pointer-visible {
             pointer-events: none;
         }
     }
 
-    .header
-    {
-        left: 128px;
-        top: 128px;
+    .header {
+        left: 50px;
+        top: 50px;
         flex-direction: column;
 
-        label
-        {
+        label {
             font-family: Roboto;
-            color: white;
-            font-size: 32px;
-
-            &.subtitle
-            {
-                font-size: 16px;
-            }
+            color: #2571fc;
+            font-weight: bolder;
+            font-size: 45px;
         }
     }
 }
