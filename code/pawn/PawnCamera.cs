@@ -18,6 +18,7 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 	/* fov */
 	float DefaultFOV = 80f;
 	float SprintFOV = 85f;
+	float TargetFOV = 80f;
 
 	protected static Vector3 IntersectPlane( Vector3 pos, Vector3 dir, float z )
 	{
@@ -56,6 +57,7 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 		targetPos = Camera.Position + new Vector3( 0, 0, 25 ) + Camera.Rotation.Backward * OrbitDistance;
 
 		Camera.Position = targetPos;
+		Camera.FieldOfView = MathX.Lerp( Camera.FieldOfView, TargetFOV, 0.1f );
 		Camera.FirstPersonViewer = null;
 
 		Sound.Listener = new()
@@ -66,12 +68,13 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 
 		if ( Input.Pressed( "run" ) )
 		{
-			Camera.FieldOfView = SprintFOV;
+			TargetFOV = SprintFOV;
 		}
 		
 		if ( Input.Released( "run" ) )
 		{
-			Camera.FieldOfView = DefaultFOV;
+
+			TargetFOV = DefaultFOV;
 		}
 
 		}
@@ -95,13 +98,7 @@ public partial class PawnCamera : EntityComponent<Pawn>, ISingletonComponent
 
 			Entity.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
-		else
-		{
-			var direction = Screen.GetDirection( Mouse.Position, Camera.FieldOfView, Camera.Rotation, Screen.Size );
-			var hitPos = IntersectPlane( Camera.Position, direction, Entity.EyePosition.z );
-
-			Entity.ViewAngles = (hitPos - Entity.EyePosition).EulerAngles;
-		}
+		
 
 		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.x, PitchClamp.y );
 
